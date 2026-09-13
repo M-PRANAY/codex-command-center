@@ -1,0 +1,1 @@
+{"name":"codex-command-center","private":true,"version":"1.0.0","scripts":{"start":"node server.js","start:remote":"set CODEX_APP_SERVER_URL=ws://127.0.0.1:8765&& node server.js","app-server":"codex app-server --listen ws://127.0.0.1:8765"}}

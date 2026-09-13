@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="live.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#"><span class="brand-mark">⌘</span><span>codex<span class="brand-light">ops</span></span></a>
+        <div class="workspace-switcher"><span class="workspace-icon">W</span><span>Web Platform</span><span class="chevron">⌄</span></div>
+        <nav>
+          <a class="nav-item active" href="#overview"><span>▦</span> Overview</a>
+          <a class="nav-item" href="#board"><span>▤</span> Task board <b id="taskCount">8</b></a>
+          <a class="nav-item" href="#agents"><span>◉</span> Codex processes <b class="green" id="processCount">0</b></a>
+          <a class="nav-item" href="#runs"><span>⌁</span> Run history</a>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="usage-card"><div class="usage-title">LOCAL MONITOR <span id="monitorProcessCount">0 processes</span></div><div class="meter"><i id="monitorMeter"></i></div><p id="monitorUsageText">Waiting for local Codex processes</p></div>
+        <a class="nav-item bottom" href="#settings"><span>⚙</span> Settings</a>
+        <div class="profile"><div class="avatar purple">PK</div><div><strong>Pranay Kumar</strong><small>Pro plan</small></div><span class="dots">•••</span></div>
+      </aside>
+
+      <main>
+        <header>
+          <div><p class="eyebrow">WORKSPACE / WEB PLATFORM</p><h1>Good morning, Pranay <span>✦</span></h1><p class="subhead">Here's what your coding agents are working on.</p></div>
+          <div class="header-actions"><button class="icon-button" id="refreshButton" aria-label="Refresh live status">↻</button><button class="new-task" id="openRunModal">▶ Run Codex</button><button class="outline-task" id="openModal">+ New task</button></div>
+        </header>
+
+        <section class="stat-grid" id="overview">
+          <article class="stat-card"><div class="stat-icon violet">⌘</div><div><p>ACTIVE AGENTS</p><strong>3 <small>/ 5</small></strong><span class="up">↑ 1 since yesterday</span></div></article>
+          <article class="stat-card"><div class="stat-icon blue">✓</div><div><p>TASKS COMPLETED</p><strong>24</strong><span class="up">↑ 18% this week</span></div></article>
+          <article class="stat-card"><div class="stat-icon orange">◷</div><div><p>AVG. RUN TIME</p><strong>8m 42s</strong><span class="down">↓ 12% faster</span></div></article>
+          <article class="stat-card"><div class="stat-icon pink">◈</div><div><p>SUCCESS RATE</p><strong>96.4%</strong><span class="up">↑ 2.1% this week</span></div></article>
+        </section>
+
+        <section class="monitor-status" id="monitorStatus"><div class="monitor-icon">⌘</div><div><p class="eyebrow">CODEX CONNECTION</p><h2 id="monitorTitle">Checking local tracking…</h2><p id="monitorDetail">Waiting for the local dashboard service.</p></div><code id="monitorEndpoint">http://127.0.0.1:4173</code></section>
+        <section class="section-head" id="agents"><div><p class="eyebrow">LOCAL CLI ACTIVITY</p><h2>Local activity <span class="live-dot"></span></h2></div><span id="connection" class="connection">Connecting…</span></section>
+        <section class="agent-grid" id="runGrid"><div class="empty-runs">No local runs yet. Start a Codex task to see live progress here.</div></section>
+
+        <section class="board-title" id="board"><div><p class="eyebrow">YOUR LOCAL WORKSPACE</p><h2>Task board</h2></div><div class="board-tools"><div class="search"><span>⌕</span><input id="search" placeholder="Search tasks" /></div><button class="filter" id="filterButton">☷ All priorities</button></div></section>
+        <section class="board" id="boardColumns"></section>
+      </main>
+    </div>
+
+    <dialog id="taskModal"><form method="dialog" id="taskForm"><div class="modal-head"><div><p class="eyebrow">CREATE WORK ITEM</p><h2>New task</h2></div><button value="cancel" class="close">×</button></div><label>Task name<input id="taskTitle" required placeholder="e.g. Add account settings page" /></label><label>Assign agent<select id="taskAgent"><option>frontend-refactor</option><option>api-migrations</option><option>release-qa</option><option>Unassigned</option></select></label><label>Priority<select id="taskPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></label><div class="modal-actions"><button value="cancel" class="cancel">Cancel</button><button class="new-task" value="default">Create task</button></div></form></dialog>
+    <dialog id="runModal"><form method="dialog" id="runForm"><div class="modal-head"><div><p class="eyebrow">LOCAL CODEX CLI</p><h2>Run an agent</h2></div><button value="cancel" class="close">×</button></div><label>Agent label<input id="runName" required value="feature-agent" maxlength="48" /></label><label>Model<select id="runModel"><option value="gpt-5.6-sol" selected>GPT-5.6 Sol</option><option value="gpt-5.6-terra">GPT-5.6 Terra</option><option value="gpt-5.6-luna">GPT-5.6 Luna</option><option value="">Use CLI default</option></select></label><label>Task prompt<textarea id="runPrompt" required placeholder="Describe what Codex should do in this repository…"></textarea></label><label>Working directory<input id="runWorkdir" value="C:\\Users\\Pranay\\Desktop" /></label><p class="run-note">Runs locally through <code>codex exec --json</code>; it does not use the experimental remote app-server.</p><div class="modal-actions"><button value="cancel" class="cancel">Cancel</button><button class="new-task" value="default">▶ Start Codex</button></div></form></dialog>
+    <dialog id="detailsModal"><div class="modal-head"><div><p class="eyebrow">LOCAL ACTIVITY</p><h2 id="detailsTitle">Run details</h2></div><button class="close" id="closeDetails" type="button">×</button></div><pre id="detailsContent" class="details-content"></pre><div class="modal-actions"><button class="cancel" id="detailsDone" type="button">Close</button></div></dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
