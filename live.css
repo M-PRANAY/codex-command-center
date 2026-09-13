@@ -1,1 +1,1 @@
-.meter i{width:0%;transition:width .25s ease}.details-content{margin:0;padding:20px 24px;max-height:320px;overflow:auto;white-space:pre-wrap;color:#5e5b73;font:12px/1.55 'DM Mono'}
+.meter i{width:0%;transition:width .25s ease}#detailsModal{width:min(960px,calc(100vw - 56px));max-width:960px}.details-content{margin:0;padding:24px 28px;max-height:min(68vh,680px);overflow:auto;white-space:pre-wrap;color:#5e5b73;font:13px/1.6 'DM Mono'}@media(max-width:720px){#detailsModal{width:calc(100vw - 28px)}.details-content{padding:18px;max-height:64vh;font-size:12px}}
